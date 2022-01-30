@@ -8,15 +8,14 @@ class Searchbar extends Component {
     return (
       <header className={s.Searchbar}>
         <form>
-          <button type="submit" class="button">
-            <span class="button-label">Search</span>
+          <button type="submit">
+            <span>Search</span>
           </button>
 
           <input
-            class="input"
             type="text"
-            autocomplete="off"
-            autofocus
+            autoComplete="off"
+            autoFocus
             // onChange={}
             placeholder="Search images and photos"
           />
