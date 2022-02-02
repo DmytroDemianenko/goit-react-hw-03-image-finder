@@ -1,6 +1,6 @@
 import React from 'react';
 import s from './ImageGalleryItem';
-const ImageGalleryItem = () => {
+const ImageGalleryItem = ({ url, alt }) => {
   return (
     <>
       <li className={s.ImageGalleryItem}>
