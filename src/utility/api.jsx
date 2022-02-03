@@ -5,7 +5,11 @@ function fetchImage(imageName) {
     if (response.ok) {
       return response.json();
     }
-    return Promise.reject(new Error(`Нет такой картинки ${imageName}`));
+    return Promise.reject(new Error(`Нет такой картинки ${imageName}`)).then(
+      data => {
+        return data.hits;
+      },
+    );
   });
 }
 

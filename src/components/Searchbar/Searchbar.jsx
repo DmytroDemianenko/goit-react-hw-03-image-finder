@@ -3,7 +3,7 @@ import s from './searchbar.module.css';
 class Searchbar extends Component {
   state = {
     imageName: '',
-    // searchInput: '',
+    searchInput: '',
   };
   handleNameChange = event => {
     this.setState({ imageName: event.currentTarget.value.toLowerCase() });
@@ -16,6 +16,7 @@ class Searchbar extends Component {
     }
     this.props.onSubmit(this.state.imageName);
     this.setState({ imageName: '' });
+    console.log(this.state.imageName);
   };
   render() {
     return (
