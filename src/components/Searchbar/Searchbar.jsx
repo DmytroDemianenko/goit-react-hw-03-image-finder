@@ -1,5 +1,12 @@
 import React, { Component } from 'react';
-import s from './searchbar.module.css';
+import {
+  SearchBar,
+  SearchForm,
+  SearchFormButton,
+  Input,
+  SearchFormLabel,
+} from './searchbar.styled';
+// import { BsSearch } from 'react-icons/bs';
 class Searchbar extends Component {
   state = {
     imageName: '',
@@ -20,13 +27,18 @@ class Searchbar extends Component {
   };
   render() {
     return (
-      <header className={s.Searchbar}>
-        <form onSubmit={this.handleSubmit}>
-          <button type="submit">
-            <span>Search</span>
-          </button>
+      <SearchBar>
+        <SearchForm onSubmit={this.handleSubmit}>
+          <SearchFormButton type="submit">
+            <SearchFormLabel>
+              {/* <BsSearch.Provider
+                value={{ color: 'blue', className: 'global-class-name' }}
+              /> */}
+              Search
+            </SearchFormLabel>
+          </SearchFormButton>
 
-          <input
+          <Input
             type="text"
             autoComplete="off"
             autoFocus
@@ -34,8 +46,8 @@ class Searchbar extends Component {
             onChange={this.handleNameChange}
             placeholder="Search images and photos"
           />
-        </form>
-      </header>
+        </SearchForm>
+      </SearchBar>
     );
   }
 }

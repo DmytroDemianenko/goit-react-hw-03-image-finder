@@ -1,73 +1,21 @@
 import React, { Component } from 'react';
 import ImageGalleryItem from './ImageGalleryItem';
-import s from './ImageGallery.module.css';
-// import imageAPI from '../../utility/api';
-const Status = {
-  IDLE: 'idle',
-  PENDING: 'pending',
-  RESOLVED: 'resolved',
-  REJECTED: 'rejected',
-};
+import { Gallery } from './ImageGallery.styled';
+import { Button } from '../ButtonLoadMore/Button.styled';
+import Spinner from '../Loader';
 class ImageGallery extends Component {
-  state = {
-    imageName: '',
-    gallery: [],
-    error: null,
-    status: Status.IDLE,
-    page: 1,
+  onPictureClick = (imageURL, alt) => {
+    this.props.onClick(imageURL, alt);
   };
-  componentDidUpdate(prevProps, prevState) {
-    const prevName = prevProps.imageName;
-    console.log(prevProps);
-    const nextName = this.props.imageName;
-    console.log(this.props);
 
-    if (prevName !== nextName) {
-      this.setState({ status: Status.PENDING });
-      this.searchImage();
-    }
-  }
-  searchImage = () => {
-    const { imageName, page } = this.state;
-    fetch(
-      `https://pixabay.com/api/?q=${imageName}&page=1&key=24297910-266d35e9d32fe9ab4dcc44a53&image_type=photo&orientation=horizontal&per_page=12`,
-    )
-      .then(response => {
-        if (response.ok) {
-          return response.json();
-        }
-        return Promise.reject(
-          new Error(`Нет такой картинки ${imageName}`),
-        ).then(data => {
-          return data.hits;
-        });
-      })
-      .then(data => {
-        this.setState(({ gallery, page, status }) => ({
-          gallery: [...gallery, ...data.hits],
-          status: Status.RESOLVED,
-          page: page + 1,
-        }));
-        console.log(data);
-      })
-      .catch(error => this.setState({ error, status: Status.REJECTED }));
-  };
   render() {
-    const {
-      //  largeImageURL,
-      error,
-      gallery,
-      status,
-      //  query,
-      //  showModal,
-      //  imageAlt,
-    } = this.state;
+    const { error, gallery, status, onLoadMore } = this.props;
 
     if (status === 'idle') {
       return <h2>Enter some request</h2>;
     }
     if (status === 'pending') {
-      return <p>Loading</p>;
+      return <Spinner />;
     }
     if (status === 'rejected') {
       return <h2>{error.message}</h2>;
@@ -75,7 +23,7 @@ class ImageGallery extends Component {
     if (status === 'resolved') {
       return (
         <>
-          <ul className={s.ImageGallery}>
+          <Gallery>
             {gallery.map(({ id, tags, webformatURL, largeImageURL }) => (
               <ImageGalleryItem
                 id={id}
@@ -86,7 +34,8 @@ class ImageGallery extends Component {
                 onClick={this.onPictureClick}
               />
             ))}
-          </ul>
+          </Gallery>
+          <Button onClick={onLoadMore}>Load more</Button>
         </>
       );
     }
